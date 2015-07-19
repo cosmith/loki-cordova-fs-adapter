@@ -1,0 +1,4 @@
+#!/bin/bash
+
+eslint src/*.es6 && echo "ESLint done"
+babel src/*.es6 --out-file bin/loki-cordova-fs-adapter.js && echo "Babel done"

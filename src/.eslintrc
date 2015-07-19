@@ -1,0 +1,27 @@
+{
+  "env": {
+    "browser": 1,
+  },
+  "globals": {
+    "require": 1,
+    "module": 1,
+    "cordova": 1,
+  },
+  "ecmaFeatures": {
+    "arrowFunctions": 1,
+    "blockBindings": 1,
+    "jsx": 1,
+    "classes": 1,
+    "templateStrings": 1,
+    "destructuring": 1,
+    "modules": 1,
+    "forOf": 1,
+  },
+  "rules": {
+    "global-strict": 0,
+    "no-console": 0,
+    "comma-dangle": 0,
+    "no-underscore-dangle": 0,
+    "camelcase": 0,
+  }
+}
