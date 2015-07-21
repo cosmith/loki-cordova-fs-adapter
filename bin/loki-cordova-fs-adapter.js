@@ -32,12 +32,14 @@ var LokiCordovaFSAdapter = (function () {
     _createClass(LokiCordovaFSAdapter, {
         saveDatabase: {
             value: function saveDatabase(dbname, dbstring, callback) {
+                var _this = this;
+
                 console.log(TAG, "saving database");
                 this._getFile(dbname, function (fileEntry) {
                     fileEntry.createWriter(function (fileWriter) {
                         fileWriter.onwriteend = function () {
                             if (fileWriter.length === 0) {
-                                var blob = new Blob([dbstring], { type: "text/plain" });
+                                var blob = _this._createBlob(dbstring, "text/plain");
                                 fileWriter.write(blob);
                                 callback();
                             }
@@ -89,6 +91,34 @@ var LokiCordovaFSAdapter = (function () {
                 }, function (err) {
                     throw new LokiCordovaFSAdapterError("Unable to resolve local file system URL" + JSON.stringify(err));
                 });
+            }
+        },
+        _createBlob: {
+
+            // adapted from http://stackoverflow.com/questions/15293694/blob-constructor-browser-compatibility
+
+            value: function _createBlob(data, datatype) {
+                var blob = undefined;
+
+                try {
+                    blob = new Blob([data], { type: datatype });
+                } catch (err) {
+                    window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+
+                    if (err.name === "TypeError" && window.BlobBuilder) {
+                        var bb = new window.BlobBuilder();
+                        bb.append(data);
+                        blob = bb.getBlob(datatype);
+                        console.debug("case 2");
+                    } else if (err.name === "InvalidStateError") {
+                        // InvalidStateError (tested on FF13 WinXP)
+                        blob = new Blob([data], { type: datatype });
+                    } else {
+                        // We're screwed, blob constructor unsupported entirely
+                        throw new LokiCordovaFSAdapterError("Unable to create blob" + JSON.stringify(err));
+                    }
+                }
+                return blob;
             }
         }
     });

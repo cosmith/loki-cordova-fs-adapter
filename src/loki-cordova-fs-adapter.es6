@@ -15,7 +15,7 @@ class LokiCordovaFSAdapter {
                     (fileWriter) => {
                         fileWriter.onwriteend = () => {
                             if (fileWriter.length === 0) {
-                                var blob = new Blob([dbstring], {type: "text/plain"});
+                                var blob = this._createBlob(dbstring, "text/plain");
                                 fileWriter.write(blob);
                                 callback();
                             }
@@ -77,6 +77,39 @@ class LokiCordovaFSAdapter {
                 );
             }
         );
+    }
+
+    // adapted from http://stackoverflow.com/questions/15293694/blob-constructor-browser-compatibility
+    _createBlob(data, datatype) {
+        let blob;
+
+        try {
+            blob = new Blob([data], {type: datatype});
+        }
+        catch (err) {
+            window.BlobBuilder = window.BlobBuilder ||
+                    window.WebKitBlobBuilder ||
+                    window.MozBlobBuilder ||
+                    window.MSBlobBuilder;
+
+            if (err.name === "TypeError" && window.BlobBuilder) {
+                var bb = new window.BlobBuilder();
+                bb.append(data);
+                blob = bb.getBlob(datatype);
+                console.debug("case 2");
+            }
+            else if (err.name === "InvalidStateError") {
+                // InvalidStateError (tested on FF13 WinXP)
+                blob = new Blob([data], {type: datatype});
+            }
+            else {
+                // We're screwed, blob constructor unsupported entirely
+                throw new LokiCordovaFSAdapterError(
+                    "Unable to create blob" + JSON.stringify(err)
+                );
+            }
+        }
+        return blob;
     }
 }
 
