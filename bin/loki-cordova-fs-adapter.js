@@ -109,7 +109,6 @@ var LokiCordovaFSAdapter = (function () {
                         var bb = new window.BlobBuilder();
                         bb.append(data);
                         blob = bb.getBlob(datatype);
-                        console.debug("case 2");
                     } else if (err.name === "InvalidStateError") {
                         // InvalidStateError (tested on FF13 WinXP)
                         blob = new Blob([data], { type: datatype });
