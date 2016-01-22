@@ -82,7 +82,9 @@ var LokiCordovaFSAdapter = (function () {
             }
         },
         deleteDatabase: {
-            value: function loadDatabase(dbname, callback) {
+            value: function deleteDatabase(dbname, callback) {
+                var _this = this;
+
                 window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (dir) {
                     var fileName = _this.options.prefix + "__" + name;
                     dir.DeleteFile(fileName);
