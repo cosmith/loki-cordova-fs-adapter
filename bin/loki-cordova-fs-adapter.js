@@ -87,7 +87,8 @@ var LokiCordovaFSAdapter = (function () {
 
                 window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (dir) {
                     var fileName = _this.options.prefix + "__" + name;
-                    dir.DeleteFile(fileName);
+                    var file = dir.getFile(fileName, { create: true }, handleSuccess, handleError);
+                    file.Delete();
                     if(callback) {
                         callback();
                     }
