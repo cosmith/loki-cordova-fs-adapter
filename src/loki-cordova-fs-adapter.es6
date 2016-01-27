@@ -69,11 +69,25 @@ class LokiCordovaFSAdapter {
         window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
             (dir) => {
                 let fileName = this.options.prefix + "__" + name;
-                let file = dir.getFile(fileName, {create: true}, handleSuccess, handleError);
-                file.Delete();
-                (callback) => {
-                    callback();
-                }
+                dir.getFile(fileName, {create: true}, 
+                    (fileEntry) => {
+                        fileEntry.remove(
+                            () => {
+                                callback();
+                            },
+                            (err) => {
+                                console.error(TAG, "error delete file", err);
+                                throw new LokiCordovaFSAdapterError("Unable delete file" + JSON.stringify(err));
+                            }
+                        );
+                    },
+                    (err) => {
+                        console.error(TAG, "error delete database", err);
+                        throw new LokiCordovaFSAdapterError(
+                            "Unable delete database" + JSON.stringify(err)
+                        );
+                    }
+                );
             },
             (err) => {
                 throw new LokiCordovaFSAdapterError(
