@@ -68,7 +68,7 @@ class LokiCordovaFSAdapter {
     deleteDatabase(dbname, callback) {
         window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
             (dir) => {
-                let fileName = this.options.prefix + "__" + name;
+                let fileName = this.options.prefix + "__" + dbname;
                 dir.getFile(fileName, {create: true}, 
                     (fileEntry) => {
                         fileEntry.remove(
