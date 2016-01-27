@@ -64,6 +64,38 @@ class LokiCordovaFSAdapter {
             }
         );
     }
+    
+    deleteDatabase(dbname, callback) {
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
+            (dir) => {
+                let fileName = this.options.prefix + "__" + dbname;
+                dir.getFile(fileName, {create: true}, 
+                    (fileEntry) => {
+                        fileEntry.remove(
+                            () => {
+                                callback();
+                            },
+                            (err) => {
+                                console.error(TAG, "error delete file", err);
+                                throw new LokiCordovaFSAdapterError("Unable delete file" + JSON.stringify(err));
+                            }
+                        );
+                    },
+                    (err) => {
+                        console.error(TAG, "error delete database", err);
+                        throw new LokiCordovaFSAdapterError(
+                            "Unable delete database" + JSON.stringify(err)
+                        );
+                    }
+                );
+            },
+            (err) => {
+                throw new LokiCordovaFSAdapterError(
+                    "Unable to resolve local file system URL" + JSON.stringify(err)
+                );
+            }
+        );
+    }
 
     _getFile(name, handleSuccess, handleError) {
         window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
