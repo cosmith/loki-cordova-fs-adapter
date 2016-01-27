@@ -84,14 +84,21 @@ var LokiCordovaFSAdapter = (function () {
         deleteDatabase: {
             value: function deleteDatabase(dbname, callback) {
                 var _this = this;
-
+                console.log(TAG, "delete database");
                 window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (dir) {
-                    var fileName = _this.options.prefix + "__" + name;
-                    var file = dir.getFile(fileName, { create: true }, handleSuccess, handleError);
-                    file.Delete();
-                    if(callback) {
-                        callback();
-                    }
+                    var fileName = _this.options.prefix + "__" + dbname;
+                    // Very important to have { create: true }
+                    dir.getFile(fileName, { create: true }, function(fileEntry) {
+                        fileEntry.remove(function() {
+                          callback();
+                        }, function (err) {
+                            console.error(TAG, "error delete file", err);
+                            throw new LokiCordovaFSAdapterError("Unable delete file" + JSON.stringify(err));
+                        });
+                    }, function (err) {
+                        console.error(TAG, "error delete database", err);
+                        throw new LokiCordovaFSAdapterError("Unable delete database" + JSON.stringify(err));
+                    });
                 }, function (err) {
                     throw new LokiCordovaFSAdapterError("Unable to resolve local file system URL" + JSON.stringify(err));
                 });
