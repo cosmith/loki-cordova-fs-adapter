@@ -1,0 +1,27 @@
+{
+  "name": "loki-cordova-fs-adapter",
+  "homepage": "https://github.com/cosmith/loki-cordova-fs-adapter",
+  "authors": [
+    "Corentin Smith <corentin.smith@gmail.com>"
+  ],
+  "description": "A FileSystem adapter for LokiJS database persistence on Cordova",
+  "main": "bin/loki-cordova-fs-adapter.js",
+  "moduleType": [],
+  "keywords": [
+    "loki",
+    "lokijs",
+    "cordova",
+    "adapter",
+    "filesystem",
+    "fs",
+    "persistence"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
