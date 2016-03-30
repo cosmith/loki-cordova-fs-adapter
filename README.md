@@ -1,4 +1,4 @@
-# loki-cordova-fs-adapter
+# loki-cordova-fs-adapter [![npm version](https://badge.fury.io/js/loki-cordova-fs-adapter.svg)](https://badge.fury.io/js/loki-cordova-fs-adapter)
 
 FileSystem adapter for LokiJS database persistence on Cordova.
 
