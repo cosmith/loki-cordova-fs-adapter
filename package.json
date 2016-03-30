@@ -1,6 +1,6 @@
 {
   "name": "loki-cordova-fs-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "FileSystem adapter for LokiJS database persistence on Cordova.",
   "files": "bin/",
   "main": "bin/loki-cordova-fs-adapter.js",
