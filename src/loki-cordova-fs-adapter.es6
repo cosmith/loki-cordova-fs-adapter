@@ -64,12 +64,13 @@ class LokiCordovaFSAdapter {
             }
         );
     }
-    
+
     deleteDatabase(dbname, callback) {
-        window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
+        let _dataDirectory = this.options.dataDirectory || cordova.file.dataDirectory;
+        window.resolveLocalFileSystemURL(_dataDirectory,
             (dir) => {
                 let fileName = this.options.prefix + "__" + dbname;
-                dir.getFile(fileName, {create: true}, 
+                dir.getFile(fileName, {create: true},
                     (fileEntry) => {
                         fileEntry.remove(
                             () => {
@@ -98,7 +99,8 @@ class LokiCordovaFSAdapter {
     }
 
     _getFile(name, handleSuccess, handleError) {
-        window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
+        let _dataDirectory = this.options.dataDirectory || cordova.file.dataDirectory;
+        window.resolveLocalFileSystemURL(_dataDirectory,
             (dir) => {
                 let fileName = this.options.prefix + "__" + name;
                 dir.getFile(fileName, {create: true}, handleSuccess, handleError);
