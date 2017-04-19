@@ -9,22 +9,23 @@ Dependency: https://github.com/apache/cordova-plugin-file
 Based on the code from https://github.com/annoyingmouse/lokiFileSystemAdapter
 
 
+### Usage
+#### import file
+`bin/loki-cordova-fs-adapter.js`
 
-```js
-var LokiCordovaFSAdapter = require("./cordova-file-system-adapter");
+#### options
+- `prefix`
+specify the persistence filename prefix
 
-var adapter = new LokiCordovaFSAdapter({"prefix": "loki"});
+- `dataDirectory`
+specify the persistence file directory, default `cordova.file.dataDirectory`
 
-var db = new loki("dbname", {adapter: adapter});
 ```
-
-### Update
-add an option `dataDirectory` which can specify the storage file directory, default `cordova.file.dataDirectory`
-
-```
-var adapter = new LokiCordovaFSAdapter({
+var adapter = new lokiCordovaFsAdapter({
 	"prefix": "loki",
 	"dataDirectory": cordova.file.documentsDirectory
 });
+
+var db = new loki("dbname", {adapter: adapter});
 ```
 
